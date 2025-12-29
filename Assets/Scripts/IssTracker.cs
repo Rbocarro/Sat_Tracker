@@ -40,7 +40,7 @@ public class IssTracker : MonoBehaviour
                 float lat = float.Parse(data.iss_position.latitude);
                 float lon = float.Parse(data.iss_position.longitude);
                 Debug.Log("ISS pos"+lat+" "+lon);             
-                issModel.transform.localPosition=Utility.ConvertToUnityCoords(lat, lon, earthRadius);
+                issModel.transform.localPosition=SGPToUnityUtility.ConvertSphericalToUnityCoords(lat, lon, earthRadius);
             }
             yield return new WaitForSeconds(5f); // Update every 5 seconds
         }

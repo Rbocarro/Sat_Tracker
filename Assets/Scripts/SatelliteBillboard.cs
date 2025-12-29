@@ -1,15 +1,12 @@
-using SGPdotNET.CoordinateSystem;
 using SGPdotNET.Observation;
-using SGPdotNET.Propagation;
-using SGPdotNET.TLE;
 using UnityEngine;
 using System.Collections;
 public class SatelliteBillboard : MonoBehaviour
 {
     private static Transform mainCamTransform;
     public float baseScale = 0.1f; // satellite billbaord visual scale
-    public static float orbitLineWidth=1f;
-    static float earthradius = (float)SgpConstants.EarthRadiusKm;
+    [Range(0f, 20f)]
+    public static float orbitLineWidth=2f;
     LineRenderer parentLine;
     public Satellite sat;
     public float distanceFromCam;
@@ -51,17 +48,7 @@ public class SatelliteBillboard : MonoBehaviour
     {
         while (true)
         {
-            EciCoordinate eci = sat.Predict(SatelliteOrbitVisualizer.SimulationTime);
-            GeodeticCoordinate geo = eci.ToGeodetic();
-
-            float lat = (float)geo.Latitude.Radians;
-            float lon = (float)geo.Longitude.Radians;
-
-            float altScale = 1.0f + ((float)geo.Altitude / earthradius);
-            float radius = 100.0f * altScale;
-
-            transform.position = Utility.ConvertToUnityCoords(lat, lon, radius);
-
+            transform.position = SGPToUnityUtility.GetSatellitePosition(sat, SatelliteOrbitVisualizer.SimulationTime, 100);
             //update sat pos based on distance from cam
             yield return new WaitForSeconds(
             distanceFromCam >= 500f ? 5.0f : 0.2f
