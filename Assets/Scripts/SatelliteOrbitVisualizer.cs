@@ -35,7 +35,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
     private void Start()
     {
         SimulationTime = DateTime.UtcNow;
-        StartCoroutine(FetchAndDrawSatellites());
+        StartCoroutine(FetchSatellites());
     }
     private void Update()
     {
@@ -43,7 +43,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         SimulationTime =SimulationTime.AddSeconds(Time.deltaTime * timeMultiplier);
         currentTime.text = SimulationTime.ToString();
     }
-    IEnumerator FetchAndDrawSatellites()
+    IEnumerator FetchSatellites()
     {
         UnityWebRequest request = UnityWebRequest.Get(tleUrl);
         yield return request.SendWebRequest();
@@ -70,7 +70,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
             {
                 Tle tle = new Tle(name, line1, line2);
                 Satellite sat = new Satellite(tle);
-                CreateOrbitVisuals(sat, tle);
+                CreateOrbitVisuals(sat);
                 numberofSats++;
             }
             catch (Exception e) { Debug.LogWarning($"Failed to parse satellite {name}: {e.Message}"); }
@@ -78,7 +78,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         }
         Debug.Log(numberofSats + " Satellites Created");
     }
-    void CreateOrbitVisuals(Satellite sat,Tle tle)
+    void CreateOrbitVisuals(Satellite sat)
     {
         //Create a GameObject for satellite's path
         GameObject orbitObj = new GameObject("Orbit_" + sat.Tle.Name);
@@ -121,7 +121,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
 
         // Place satellite marker at current position
         GameObject marker = Instantiate(satellitePrefab, orbitObj.transform);
-        marker.GetComponent<SatelliteBillboard>().tle = tle;
-        marker.gameObject.name =tle.Name;            
+        marker.GetComponent<SatelliteBillboard>().sat = sat;
+        marker.gameObject.name = sat.Name;            
     }
 }

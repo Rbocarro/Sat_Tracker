@@ -11,16 +11,13 @@ public class SatelliteBillboard : MonoBehaviour
     public static float orbitLineWidth=1f;
     static float earthradius = (float)SgpConstants.EarthRadiusKm;
     LineRenderer parentLine;
-    public Tle tle;
-    Satellite sat;
+    public Satellite sat;
     public float distanceFromCam;
     void Start()
     {
         mainCamTransform = Camera.main.transform;
         parentLine = GetComponentInParent<LineRenderer>();
-        sat = new Satellite(tle);
         StartCoroutine(UpdateSatellitePosition());
-
     }
     void LateUpdate()
     {
@@ -40,8 +37,11 @@ public class SatelliteBillboard : MonoBehaviour
 
         //line width logic
         float lw = distanceFromCam / 1000;
-        parentLine.startWidth = parentLine.endWidth = (lw * orbitLineWidth);
-        parentLine.alignment= LineAlignment.View;
+        if (parentLine.enabled)
+        {
+            parentLine.startWidth = parentLine.endWidth = (lw * orbitLineWidth);
+            parentLine.alignment = LineAlignment.View;
+        }
     }
     public LineRenderer GetLineRenderer()
     {

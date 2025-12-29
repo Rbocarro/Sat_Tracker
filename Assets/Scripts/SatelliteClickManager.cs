@@ -36,7 +36,7 @@ public class SatelliteClickManager : MonoBehaviour
                 newLine.enabled = true;
                 currentActiveLine = newLine;
 
-                Debug.Log($"{satellite.tle.NoradNumber} {satellite.tle.Name}");
+                Debug.Log($"{satellite.sat.Tle.NoradNumber} {satellite.sat.Name}");
             }
         }
     }
