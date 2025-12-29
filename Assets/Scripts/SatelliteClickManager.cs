@@ -10,7 +10,6 @@ public class SatelliteClickManager : MonoBehaviour
     {
         mainCam = Camera.main;
     }
-
     void Update()
     {
         if (Mouse.current == null) return;

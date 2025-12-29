@@ -84,17 +84,6 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         GameObject orbitObj = new GameObject("Orbit_" + sat.Tle.Name);
         orbitObj.transform.SetParent(this.transform);
         
-        LineRenderer lr = orbitObj.AddComponent<LineRenderer>();
-        lr.positionCount = orbitResolution + 1;
-        lr.startWidth = lr.endWidth = orbitLineWidth;
-        lr.material = orbitMaterial != null ? orbitMaterial : new Material(Shader.Find("Sprites/Default"));
-        lr.useWorldSpace = true;
-        lr.alignment = LineAlignment.View; // align view with camera
-        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-        lr.enabled = false;
-        
-        
         double totalDurationMinutes = (orbitDurationHours * 60.0f)/ sat.Tle.MeanMotionRevPerDay;// Calculate the orbital period in mins
         double timeStep = totalDurationMinutes / orbitResolution;                               // Calculate the total time span in minutes hours to minutes
 
@@ -119,6 +108,15 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
             points[i] = Utility.ConvertToUnityCoords(lat, lon, currentRadius);
         }
 
+        //Linerender Setup
+        LineRenderer lr = orbitObj.AddComponent<LineRenderer>();
+        lr.positionCount = orbitResolution + 1;
+        lr.startWidth = lr.endWidth = orbitLineWidth;
+        lr.material = orbitMaterial != null ? orbitMaterial : new Material(Shader.Find("Sprites/Default"));
+        lr.useWorldSpace = true;
+        lr.alignment = LineAlignment.View; // align view with camera
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.enabled = false;
         lr.SetPositions(points);
 
         // Place satellite marker at current position
