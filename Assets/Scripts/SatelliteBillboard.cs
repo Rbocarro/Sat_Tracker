@@ -10,15 +10,22 @@ public class SatelliteBillboard : MonoBehaviour
     LineRenderer parentLine;
     public Satellite sat;
     public float distanceFromCam;
+
+    private int frameCount = 0;
     void Start()
     {
         mainCamTransform = Camera.main.transform;
         parentLine = GetComponentInParent<LineRenderer>();
         StartCoroutine(UpdateSatellitePosition());
+        UpdateSatBillboardVisual();
     }
     void LateUpdate()
     {
-       UpdateSatBillboardVisual();
+        frameCount++;
+        if (frameCount % 10 == 0)
+        {
+            UpdateSatBillboardVisual();
+        }
     }
     private void UpdateSatBillboardVisual()
     {
