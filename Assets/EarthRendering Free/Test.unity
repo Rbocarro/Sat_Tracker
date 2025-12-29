@@ -1471,7 +1471,6 @@ GameObject:
   - component: {fileID: 1767892531}
   - component: {fileID: 1767892530}
   - component: {fileID: 1767892532}
-  - component: {fileID: 1767892533}
   m_Layer: 0
   m_Name: SatManager
   m_TagString: Untagged
@@ -1495,7 +1494,6 @@ MonoBehaviour:
   earthRadius: 100
   orbitResolution: 180
   orbitMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  orbitWidth: 2
   orbitDurationHours: 72
   timeMultiplier: 1
   satellitePrefab: {fileID: 232703137128138428, guid: 75f74cca8c2f8b8499f06d3da5be561f, type: 3}
@@ -1522,25 +1520,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767892529}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2570023b368c31241a7912043bebf5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
---- !u!114 &1767892533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1767892529}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70a6195e7a4506243a2fea96b093e47c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IssTracker
-  issModel: {fileID: 0}
-  earthRadius: 100
 --- !u!1 &1784474954
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class SatelliteBillboard : MonoBehaviour
     }
     void LateUpdate()
     {
-        UpdateSatBillboardVisual();
+       UpdateSatBillboardVisual();
     }
     private void UpdateSatBillboardVisual()
     {
