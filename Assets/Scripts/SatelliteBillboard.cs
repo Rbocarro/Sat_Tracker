@@ -11,22 +11,28 @@ public class SatelliteBillboard : MonoBehaviour
     public Satellite sat;
     public float distanceFromCam;
 
-    private int frameCount = 0;
+    private uint frameCount = 0;
+    private Vector3 maincCamLastPosition;
     void Start()
     {
         mainCamTransform = Camera.main.transform;
         parentLine = GetComponentInParent<LineRenderer>();
         StartCoroutine(UpdateSatellitePosition());
+        maincCamLastPosition = mainCamTransform.position;
         UpdateSatBillboardVisual();
     }
     void LateUpdate()
     {
-        frameCount++;
-        if (frameCount % 10 == 0)
+       frameCount++;
+       float distance = Vector3.Distance(mainCamTransform.position, maincCamLastPosition);
+
+       if ((distance >= 0.5f) & (frameCount % 10 == 0))
         {
-            UpdateSatBillboardVisual();
+           UpdateSatBillboardVisual();
+           maincCamLastPosition = mainCamTransform.position;
         }
     }
+       
     private void UpdateSatBillboardVisual()
     {
         if (mainCamTransform == null) return;
