@@ -3,7 +3,7 @@ using SGPdotNET.Observation;
 using SGPdotNET.Propagation;
 using System;
 using UnityEngine;
-public static class SGPToUnityUtility
+public static class Utility
 {   
     public static Vector3 ConvertSphericalToUnityCoords(float latRad, float lonRad, float radius)
     {
@@ -44,5 +44,26 @@ public static class SGPToUnityUtility
         float currentRadius = earthRadiusUnity * altScale;                                  
         return ConvertSphericalToUnityCoords(lat, lon, currentRadius);
     }
+
+    public static void GenerateOrbitPathAtTime(Satellite sat, DateTime time, float orbitDurationHours,int orbitResolution,float earthRadius,GameObject obj)
+    {
+        double totalDurationMinutes = (orbitDurationHours * 60.0f) / sat.Tle.MeanMotionRevPerDay;// Calculate the orbital period in mins
+        DateTime now = DateTime.UtcNow;
+        //Linerender Setup
+        LineRenderer lr = obj.AddComponent<LineRenderer>();
+        lr.positionCount = orbitResolution + 1;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.useWorldSpace = true;
+        lr.alignment = LineAlignment.View; // align view with camera
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.enabled = false;
+        lr.SetPositions(CalcualteOrbitVisualPoints(sat, now, orbitResolution, totalDurationMinutes, earthRadius));
+    }
+
+    //public static Vector3 GetNadirPoint(Satellite sat,DateTime time)
+    //{
+    //    var x = sat.Predict();
+    //    x.
+    //}
 }
 

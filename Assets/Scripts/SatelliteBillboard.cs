@@ -61,7 +61,7 @@ public class SatelliteBillboard : MonoBehaviour
     {
         while (true)
         {
-            transform.position = SGPToUnityUtility.GetSatellitePosition(sat, SatelliteOrbitVisualizer.SimulationTime, 100);
+            transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitVisualizer.SimulationTime, 100);
             //update sat pos based on distance from cam
             yield return new WaitForSeconds(
             distanceFromCam >= 500f ? 5.0f : 0.2f

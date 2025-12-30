@@ -117,23 +117,14 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         //Create a GameObject for satellite's path
         GameObject orbitObj = new GameObject("Orbit_" + sat.Tle.Name);
         orbitObj.transform.SetParent(this.transform);
-        
-        double totalDurationMinutes = (orbitDurationHours * 60.0f)/ sat.Tle.MeanMotionRevPerDay;// Calculate the orbital period in mins
 
-        DateTime now = DateTime.UtcNow;
-        //Linerender Setup
-        LineRenderer lr = orbitObj.AddComponent<LineRenderer>();
-        lr.positionCount = orbitResolution + 1;
-        lr.material = orbitMaterial != null ? orbitMaterial : new Material(Shader.Find("Sprites/Default"));
-        lr.useWorldSpace = true;
-        lr.alignment = LineAlignment.View; // align view with camera
-        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        lr.enabled = false;
-        lr.SetPositions(SGPToUnityUtility.CalcualteOrbitVisualPoints(sat, now, orbitResolution, totalDurationMinutes, earthRadius));
+        Utility.GenerateOrbitPathAtTime(sat, SimulationTime, orbitDurationHours, orbitResolution, earthRadius, orbitObj);
 
         // Place satellite marker at current position
         GameObject marker = Instantiate(satellitePrefab, orbitObj.transform);
         marker.GetComponent<SatelliteBillboard>().sat = sat;
         marker.gameObject.name = sat.Name;            
     }
+
+
 }
