@@ -1,6 +1,7 @@
 using SGPdotNET.Observation;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 public class SatelliteBillboard : MonoBehaviour
 {
     private static Transform mainCamTransform;
@@ -8,11 +9,16 @@ public class SatelliteBillboard : MonoBehaviour
     [Range(0f, 20f)]
     public static float orbitLineWidth=2f;
     LineRenderer parentLine;
+    LineRenderer nadirLine;
     public Satellite sat;
     public float distanceFromCam;
+    public Texture2D dottedLine;
+    public float dotTiling = 20f;
 
     private uint frameCount = 0;
     private Vector3 maincCamLastPosition;
+
+    GameObject nadirpoint;
     void Start()
     {
         mainCamTransform = Camera.main.transform;
@@ -20,16 +26,32 @@ public class SatelliteBillboard : MonoBehaviour
         StartCoroutine(UpdateSatellitePosition());
         maincCamLastPosition = mainCamTransform.position;
         UpdateSatBillboardVisual();
+
+        nadirpoint= GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
+        nadirLine=this.AddComponent<LineRenderer>();
+        // Nadir line setup
+        nadirLine.positionCount = 2;
+        nadirLine.material = new Material(Shader.Find("Sprites/Default"));
+        nadirLine.material.mainTexture = dottedLine;
+        nadirLine.textureMode = LineTextureMode.Tile;
+        nadirLine.material.color = Color.green;
+        nadirLine.useWorldSpace = true;
+        nadirLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        nadirLine.alignment = LineAlignment.View;
+        nadirLine.enabled = false;
     }
     void LateUpdate()
     {
        frameCount++;
        float distance = Vector3.Distance(mainCamTransform.position, maincCamLastPosition);
 
-       if ((distance >= 0.5f) & (frameCount % 10 == 0))
+       if (((distance >= 0.5f) & (frameCount % 10 == 0)) || (frameCount % 101 == 0))
         {
            UpdateSatBillboardVisual();
            maincCamLastPosition = mainCamTransform.position;
+           nadirpoint.transform.position = Utility.GetNadirPoint(sat, SatelliteOrbitVisualizer.SimulationTime,100);
+           UpdateNadirLine(); 
         }
     }
        
@@ -53,9 +75,13 @@ public class SatelliteBillboard : MonoBehaviour
             parentLine.alignment = LineAlignment.View;
         }
     }
-    public LineRenderer GetLineRenderer()
+    public LineRenderer GetOrbitLineRenderer()
     {
         return parentLine;
+    }
+    public LineRenderer GetNadirLineRenderer()
+    {
+        return nadirLine;
     }
     IEnumerator UpdateSatellitePosition()
     {
@@ -67,5 +93,29 @@ public class SatelliteBillboard : MonoBehaviour
             distanceFromCam >= 500f ? 5.0f : 0.2f
             );
         }
+    }
+    private void UpdateNadirLine()
+    {
+        if (nadirLine == null) return;
+
+        Vector3 satPos = transform.position;
+        Vector3 nadirPos = Utility.GetNadirPoint(
+            sat,
+            SatelliteOrbitVisualizer.SimulationTime,
+            100f
+        );
+
+        nadirLine.SetPosition(0, satPos);
+        nadirLine.SetPosition(1, nadirPos);
+
+        // Width scaling 
+        float lw = distanceFromCam / 1000f;
+        nadirLine.startWidth = nadirLine.endWidth = lw * orbitLineWidth * 0.5f;
+
+        float length = Vector3.Distance(satPos, nadirPos);
+
+        nadirLine.material.mainTextureScale =
+            new Vector2(length * dotTiling, 1f);
+
     }
 }

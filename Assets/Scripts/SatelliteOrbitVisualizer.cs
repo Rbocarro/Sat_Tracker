@@ -86,7 +86,7 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
     }
     void FetchSatellitesFromFile()
     {
-        string path = "Assets/OrbitFiles/active.txt";
+        string path = "Assets/OrbitFiles/last-30-days.txt";
         string rawData = File.ReadAllText(path).ToString();
         string[] lines = rawData.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
         // TLE info come in sets of 3 lines

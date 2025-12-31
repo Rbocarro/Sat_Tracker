@@ -1,4 +1,4 @@
-using SGPdotNET.CoordinateSystem;
+﻿using SGPdotNET.CoordinateSystem;
 using SGPdotNET.Observation;
 using SGPdotNET.Propagation;
 using System;
@@ -60,10 +60,22 @@ public static class Utility
         lr.SetPositions(CalcualteOrbitVisualPoints(sat, now, orbitResolution, totalDurationMinutes, earthRadius));
     }
 
-    //public static Vector3 GetNadirPoint(Satellite sat,DateTime time)
-    //{
-    //    var x = sat.Predict();
-    //    x.
-    //}
+    public static Vector3 GetNadirPoint(Satellite sat, DateTime time,float rad)
+    {
+        //var fah = sat.Predict(time);
+        //return new UnityEngine.Vector3((float)fah.Position.X,
+        //                               (float)fah.Position.Z,
+        //                                (float)fah.Position.Y).normalized*-rad;
+        EciCoordinate eci = sat.Predict(time);
+
+
+        GeodeticCoordinate geo = eci.ToGeodetic();
+
+        float lat = (float)geo.Latitude.Radians;
+        float lon = (float)geo.Longitude.Radians;
+
+        return ConvertSphericalToUnityCoords(lat, lon, rad);
+
+    }
 }
 

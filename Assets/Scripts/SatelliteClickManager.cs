@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 public class SatelliteClickManager : MonoBehaviour
 {
     Camera mainCam;
-    LineRenderer currentActiveLine;
+    LineRenderer currentActiveOrbitLine;
+    LineRenderer currentActiveNadirLine;
 
     void Awake()
     {
@@ -25,16 +26,21 @@ public class SatelliteClickManager : MonoBehaviour
                 var satellite = hit.collider.GetComponent<SatelliteBillboard>();
                 if (satellite == null) return;
 
-                LineRenderer newLine = satellite.GetLineRenderer();
-                if (newLine == null) return;
+                LineRenderer newOrbitLine = satellite.GetOrbitLineRenderer();
+                LineRenderer newNadirLine=satellite.GetNadirLineRenderer();
+                if (newOrbitLine == null || newNadirLine==null) return;
 
                 // Disable previous selection
-                if (currentActiveLine != null && currentActiveLine != newLine)
-                    currentActiveLine.enabled = false;
+                if (currentActiveOrbitLine != null && currentActiveOrbitLine != newOrbitLine)
+                    currentActiveOrbitLine.enabled = false;
+                if(currentActiveNadirLine!=null && currentActiveNadirLine!= newNadirLine)
+                    currentActiveNadirLine.enabled = false;
 
                 // Enable new selection
-                newLine.enabled = true;
-                currentActiveLine = newLine;
+                newOrbitLine.enabled = true;
+                currentActiveOrbitLine = newOrbitLine;
+                newNadirLine.enabled=true;
+                currentActiveNadirLine = newNadirLine;
 
                 Debug.Log($"{satellite.sat.Tle.NoradNumber} {satellite.sat.Name}");
             }
