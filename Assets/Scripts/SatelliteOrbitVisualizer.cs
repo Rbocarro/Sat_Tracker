@@ -1,11 +1,9 @@
 using SGPdotNET.Observation;
-using SGPdotNET.Propagation;
 using SGPdotNET.TLE;
 using System;
 using System.Collections;
 using System.IO;
 using TMPro;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 public class SatelliteOrbitVisualizer : MonoBehaviour
