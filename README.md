@@ -1,6 +1,6 @@
 # Sat_Tracker
 ![](./ReadmeAssets/Holgraphic_AR.png)
-todo
+This project was an exploration of integrating 
 
 # Demo Download
 
@@ -10,7 +10,7 @@ todo
 # Tools and Techniques Used
 
 ## TLE
-
+![](./ReadmeAssets/tlebreakdown.png)<br/>
 
 ## SGPDOTnet
 todo
@@ -28,9 +28,9 @@ Card Overlay's visual elements were created using [Pokecardmaker](https://pokeca
 
 ## References
 + [Mimikyu Model by AlmondFeather](https://sketchfab.com/3d-models/mimikyu-ad2aaa7bb372441984f40df49854b3eb) - [Twitter](https://x.com/AlmondFeather)
-+ [Daniel-ilett - Holographic Foil Cards with Shader Graph in Unity URP](https://github.com/daniel-ilett/shaders-holo-card)
-+ [cyanilux - Holofoil Card Shader Breakdown](https://www.cyanilux.com/tutorials/holofoil-card-shader-breakdown/)
-+ [Rigor Mortis Tortoise - Holographic Card Tutorial](https://www.youtube.com/watch?v=rYsWYjHzaMY)
++ [Wikipedia - Two-line element set](https://en.wikipedia.org/wiki/Two-line_element_set)
++ [Wikipedia - Simplified perturbations models](https://en.wikipedia.org/wiki/Simplified_perturbations_models)
++ [Wikipedia - Earth-centered inertial](https://en.wikipedia.org/wiki/Earth-centered_inertial
 + [ameye.dev - Holographic Card Shader](https://ameye.dev/notes/holographic-card-shader/)
 
 
