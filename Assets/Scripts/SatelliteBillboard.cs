@@ -27,26 +27,17 @@ public class SatelliteBillboard : MonoBehaviour
         maincCamLastPosition = mainCamTransform.position;
         UpdateSatBillboardVisual();
 
-        nadirpoint= GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        nadirpoint = new GameObject();
+        nadirpoint.transform.SetParent(this.transform);
+        SetupNadirLineRenderer();
 
-        nadirLine=this.AddComponent<LineRenderer>();
-        // Nadir line setup
-        nadirLine.positionCount = 2;
-        nadirLine.material = new Material(Shader.Find("Sprites/Default"));
-        nadirLine.material.mainTexture = dottedLine;
-        nadirLine.textureMode = LineTextureMode.Tile;
-        nadirLine.material.color = Color.green;
-        nadirLine.useWorldSpace = true;
-        nadirLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        nadirLine.alignment = LineAlignment.View;
-        nadirLine.enabled = false;
     }
     void LateUpdate()
     {
        frameCount++;
-       float distance = Vector3.Distance(mainCamTransform.position, maincCamLastPosition);
+       float cameraMovementdistance = Vector3.Distance(mainCamTransform.position, maincCamLastPosition);
 
-       if (((distance >= 0.5f) & (frameCount % 10 == 0)) || (frameCount % 101 == 0))
+       if (((cameraMovementdistance >= 0.5f) & (frameCount % 10 == 0)) || (frameCount % 101 == 0))
         {
            UpdateSatBillboardVisual();
            maincCamLastPosition = mainCamTransform.position;
@@ -57,8 +48,6 @@ public class SatelliteBillboard : MonoBehaviour
        
     private void UpdateSatBillboardVisual()
     {
-        if (mainCamTransform == null) return;
-
         // Make the plane parallel to the camera's forward vector
         transform.rotation = Quaternion.LookRotation(mainCamTransform.forward, mainCamTransform.up);
         transform.Rotate(90, 0, 0);
@@ -117,5 +106,21 @@ public class SatelliteBillboard : MonoBehaviour
         nadirLine.material.mainTextureScale =
             new Vector2(length * dotTiling, 1f);
 
+    }
+    private void SetupNadirLineRenderer()
+    {   
+        if (this.GetComponent<LineRenderer>() != null)  return;
+
+        nadirLine = this.AddComponent<LineRenderer>();
+        // Nadir line setup
+        nadirLine.positionCount = 2;
+        nadirLine.material = new Material(Shader.Find("Sprites/Default"));
+        nadirLine.material.mainTexture = dottedLine;
+        nadirLine.textureMode = LineTextureMode.Tile;
+        nadirLine.material.color = Color.green;
+        nadirLine.useWorldSpace = true;
+        nadirLine.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        nadirLine.alignment = LineAlignment.View;
+        nadirLine.enabled = false;
     }
 }

@@ -32,15 +32,8 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
     private void Start()
     {
         SimulationTime = DateTime.UtcNow;
-        if(loadSatsFromURL)
-        {
-            StartCoroutine(FetchSatellitesFromURL());
-        }
-        else
-        {
-            FetchSatellitesFromFile();
-        }
-        
+        if(loadSatsFromURL) StartCoroutine(FetchSatellitesFromURL());
+        else                FetchSatellitesFromFile();
     }
     private void Update()
     {
