@@ -6,7 +6,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-public class SatelliteOrbitVisualizer : MonoBehaviour
+public class SatelliteOrbitManager : MonoBehaviour
 {
     [Header("Settings")]
     public string tleUrl = "https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=tle";
@@ -101,8 +101,6 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         }
         Debug.Log(numberofSats + " Satellites Created From File");
     }
-
-
     void CreateOrbitVisuals(Satellite sat)
     {
         //Create a GameObject for satellite's path
@@ -116,6 +114,4 @@ public class SatelliteOrbitVisualizer : MonoBehaviour
         marker.GetComponent<SatelliteBillboard>().sat = sat;
         marker.gameObject.name = sat.Name;            
     }
-
-
 }

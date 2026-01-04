@@ -30,7 +30,6 @@ public class SatelliteBillboard : MonoBehaviour
         nadirpoint = new GameObject();
         nadirpoint.transform.SetParent(this.transform);
         SetupNadirLineRenderer();
-
     }
     void LateUpdate()
     {
@@ -41,11 +40,10 @@ public class SatelliteBillboard : MonoBehaviour
         {
            UpdateSatBillboardVisual();
            maincCamLastPosition = mainCamTransform.position;
-           nadirpoint.transform.position = Utility.GetNadirPoint(sat, SatelliteOrbitVisualizer.SimulationTime,100);
+           nadirpoint.transform.position = Utility.GetNadirPoint(sat, SatelliteOrbitManager.SimulationTime,100);
            UpdateNadirLine(); 
         }
     }
-       
     private void UpdateSatBillboardVisual()
     {
         // Make the plane parallel to the camera's forward vector
@@ -76,7 +74,7 @@ public class SatelliteBillboard : MonoBehaviour
     {
         while (true)
         {
-            transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitVisualizer.SimulationTime, 100);
+            transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
             //update sat pos based on distance from cam
             yield return new WaitForSeconds(
             distanceFromCam >= 500f ? 5.0f : 0.2f
@@ -90,7 +88,7 @@ public class SatelliteBillboard : MonoBehaviour
         Vector3 satPos = transform.position;
         Vector3 nadirPos = Utility.GetNadirPoint(
             sat,
-            SatelliteOrbitVisualizer.SimulationTime,
+            SatelliteOrbitManager.SimulationTime,
             100f
         );
 

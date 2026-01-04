@@ -32,7 +32,7 @@ public class SatelliteInteractionManager : MonoBehaviour
         SatHoverInfoPanel.SetActive(true);
         Vector2 anchoredPos = mousePos / canvasRecTransform.localScale.y;
         SatHoverInfoPanelRectTransform.anchoredPosition = anchoredPos;
-        SatHoverInfoPanelText.text = $"{satellite.sat.Name} <color=green>{satellite.sat.Tle.NoradNumber}</color>";
+        SatHoverInfoPanelText.text = $"{satellite.sat.Name} <color=green>{satellite.sat.Tle.NoradNumber}</color> {satellite.sat.Orbit.Period}";
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
