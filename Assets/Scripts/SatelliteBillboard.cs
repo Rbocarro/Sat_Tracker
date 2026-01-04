@@ -7,7 +7,7 @@ public class SatelliteBillboard : MonoBehaviour
     private static Transform mainCamTransform;
     public float baseScale = 0.1f; // satellite billbaord visual scale
     [Range(0f, 20f)]
-    public static float orbitLineWidth=2f;
+    public static float orbitLineWidth=10f;
     LineRenderer parentLine;
     LineRenderer nadirLine;
     public Satellite sat;
@@ -47,8 +47,8 @@ public class SatelliteBillboard : MonoBehaviour
     private void UpdateSatBillboardVisual()
     {
         // Make the plane parallel to the camera's forward vector
-        transform.rotation = Quaternion.LookRotation(mainCamTransform.forward, mainCamTransform.up);
-        transform.Rotate(90, 0, 0);
+        transform.rotation = Quaternion.LookRotation(-mainCamTransform.forward, mainCamTransform.up);
+        //transform.Rotate(90, 0, 0);
 
         // Scaling logic
         distanceFromCam = Vector3.Distance(transform.position, mainCamTransform.position);
@@ -72,13 +72,12 @@ public class SatelliteBillboard : MonoBehaviour
     }
     IEnumerator UpdateSatellitePosition()
     {
+        WaitForSeconds waitShort = new WaitForSeconds(0.2f);
+        WaitForSeconds waitLong = new WaitForSeconds(5.0f);
         while (true)
         {
             transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
-            //update sat pos based on distance from cam
-            yield return new WaitForSeconds(
-            distanceFromCam >= 500f ? 5.0f : 0.2f
-            );
+            yield return distanceFromCam >= 500f? waitLong:waitShort;
         }
     }
     private void UpdateNadirLine()
@@ -97,20 +96,19 @@ public class SatelliteBillboard : MonoBehaviour
 
         // Width scaling 
         float lw = distanceFromCam / 1000f;
-        nadirLine.startWidth = nadirLine.endWidth = lw * orbitLineWidth * 0.5f;
+        nadirLine.startWidth = nadirLine.endWidth = lw * orbitLineWidth;
 
-        float length = Vector3.Distance(satPos, nadirPos);
+       float length = Vector3.Distance(satPos, nadirPos);
 
         nadirLine.material.mainTextureScale =
-            new Vector2(length * dotTiling, 1f);
+            new Vector2(1f, 10f*Mathf.Sin(Time.realtimeSinceStartup));
 
     }
     private void SetupNadirLineRenderer()
     {   
         if (this.GetComponent<LineRenderer>() != null)  return;
-
-        nadirLine = this.AddComponent<LineRenderer>();
         // Nadir line setup
+        nadirLine = this.AddComponent<LineRenderer>();
         nadirLine.positionCount = 2;
         nadirLine.material = new Material(Shader.Find("Sprites/Default"));
         nadirLine.material.mainTexture = dottedLine;
