@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 736020430623078642}
   - component: {fileID: 464834636562687098}
   - component: {fileID: 1998723497545854295}
-  - component: {fileID: 1295271331290410715}
+  - component: {fileID: 5865977234057606080}
   m_Layer: 0
   m_Name: Satellite
   m_TagString: Untagged
@@ -105,7 +105,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SatelliteBillboard
   baseScale: 0.001
---- !u!65 &1295271331290410715
+  distanceFromCam: 0
+  dottedLine: {fileID: 2800000, guid: d87fb3d6719289647a1d7e0cff22ed0b, type: 3}
+  dotTiling: 0.001
+--- !u!65 &5865977234057606080
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
