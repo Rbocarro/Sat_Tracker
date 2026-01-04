@@ -7,7 +7,7 @@ public class SatelliteBillboard : MonoBehaviour
     private static Transform mainCamTransform;
     public float baseScale = 0.1f; // satellite billbaord visual scale
     [Range(0f, 20f)]
-    public static float orbitLineWidth=10f;
+    public static float orbitLineWidth=5f;
     LineRenderer parentLine;
     LineRenderer nadirLine;
     public Satellite sat;
@@ -98,10 +98,10 @@ public class SatelliteBillboard : MonoBehaviour
         float lw = distanceFromCam / 1000f;
         nadirLine.startWidth = nadirLine.endWidth = lw * orbitLineWidth;
 
-       float length = Vector3.Distance(satPos, nadirPos);
+       //float length = Vector3.Distance(satPos, nadirPos);
 
-        nadirLine.material.mainTextureScale =
-            new Vector2(1f, 10f*Mathf.Sin(Time.realtimeSinceStartup));
+       // nadirLine.material.mainTextureOffset =
+       //     new Vector2(1f, 1f);
 
     }
     private void SetupNadirLineRenderer()
