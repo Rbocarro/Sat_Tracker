@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class CameraCtrl : MonoBehaviour
@@ -15,10 +16,12 @@ public class CameraCtrl : MonoBehaviour
     Vector2 targetOffCenter = Vector2.zero;
     Vector2 offCenter = Vector2.zero;
 
-    public Vector3 targetPosition = Vector3.zero; // The point  orbiting around
+    public Vector3 targetPosition = Vector3.zero; // The point orbiting around
     public float orbitSensitivity = 1f;
     public float minPitch = -89f; // Prevent camera flipping
     public float maxPitch = 89f;
+
+    public float zoomLerpSpeed = 10f;
 
     Camera cam;
 
@@ -38,6 +41,8 @@ public class CameraCtrl : MonoBehaviour
     void Update()
     {
         if (Mouse.current == null) return;
+        if (IsMouseOverUI()) return;
+        
 
         // --- Scroll wheel zoom ---
         float wheelDelta = Mouse.current.scroll.ReadValue().y;
@@ -108,5 +113,13 @@ public class CameraCtrl : MonoBehaviour
         transform.position +=
             transform.right * offCenter.x +
             transform.up * offCenter.y;
+    }
+    private bool IsMouseOverUI()
+    {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            return true;
+        }
+        return false;
     }
 }

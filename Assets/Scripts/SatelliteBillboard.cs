@@ -26,7 +26,6 @@ public class SatelliteBillboard : MonoBehaviour
         StartCoroutine(UpdateSatellitePosition());
         maincCamLastPosition = mainCamTransform.position;
         UpdateSatBillboardVisual();
-
         nadirpoint = new GameObject();
         nadirpoint.transform.SetParent(this.transform);
         SetupNadirLineRenderer();
@@ -41,7 +40,7 @@ public class SatelliteBillboard : MonoBehaviour
            UpdateSatBillboardVisual();
            maincCamLastPosition = mainCamTransform.position;
            nadirpoint.transform.position = Utility.GetNadirPoint(sat, SatelliteOrbitManager.SimulationTime,100);
-           UpdateNadirLine(); 
+           
         }
     }
     private void UpdateSatBillboardVisual()
@@ -80,6 +79,7 @@ public class SatelliteBillboard : MonoBehaviour
         while (true)
         {
             transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
+            UpdateNadirLine();
             yield return distanceFromCam >= 500f? waitLong:Time.deltaTime;
         }
     }

@@ -53,6 +53,7 @@ public static class Utility
         LineRenderer lr = obj.AddComponent<LineRenderer>();
         lr.positionCount = orbitResolution + 1;
         lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.material.color = new Color(1, 1, 1, 0.45f);
         lr.useWorldSpace = true;
         lr.alignment = LineAlignment.View; // align view with camera
         lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -76,6 +77,20 @@ public static class Utility
 
         return ConvertSphericalToUnityCoords(lat, lon, rad);
 
+    }
+    public static double GetAltitudeKm(Satellite sat, DateTime time)
+    {
+        EciCoordinate eci = sat.Predict(time);
+        GeodeticCoordinate geo = eci.ToGeodetic();
+        return geo.Altitude;
+    }
+    public static void GetLatLon(Satellite sat,DateTime time,out double latitudeDeg,out double longitudeDeg)
+    {
+        EciCoordinate eci = sat.Predict(time);
+        GeodeticCoordinate geo = eci.ToGeodetic();
+
+        latitudeDeg = geo.Latitude.Degrees;
+        longitudeDeg = geo.Longitude.Degrees;
     }
 }
 
