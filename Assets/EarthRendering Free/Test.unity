@@ -435,8 +435,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -746,7 +746,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SImulation Time Step:60.0s
+  m_text: Sim Time Step:60.0s
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 974189d8f6e40ca4881e48e89a901f72, type: 2}
   m_sharedMaterial: {fileID: 5967391598998198910, guid: 974189d8f6e40ca4881e48e89a901f72, type: 2}
@@ -1709,7 +1709,7 @@ MonoBehaviour:
   earthRadius: 100
   orbitResolution: 180
   orbitMaterial: {fileID: 0}
-  orbitDurationHours: 72
+  orbitDurationHours: 48
   timeMultiplier: 1
   satellitePrefab: {fileID: 232703137128138428, guid: 75f74cca8c2f8b8499f06d3da5be561f, type: 3}
   currentTime: {fileID: 1784474956}

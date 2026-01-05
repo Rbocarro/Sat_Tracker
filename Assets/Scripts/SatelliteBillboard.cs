@@ -7,7 +7,7 @@ public class SatelliteBillboard : MonoBehaviour
     private static Transform mainCamTransform;
     public float baseScale = 0.1f; // satellite billbaord visual scale
     [Range(0f, 20f)]
-    public static float orbitLineWidth=5f;
+    public static float orbitLineWidth=2.5f;
     LineRenderer parentLine;
     LineRenderer nadirLine;
     public Satellite sat;
@@ -55,11 +55,14 @@ public class SatelliteBillboard : MonoBehaviour
         transform.localScale = Vector3.one * (distanceFromCam * baseScale);
 
         //line width logic
-        float lw = distanceFromCam / 1000;
-        if (parentLine.enabled)
+        if(parentLine.enabled)
         {
-            parentLine.startWidth = parentLine.endWidth = (lw * orbitLineWidth);
-            parentLine.alignment = LineAlignment.View;
+            float lw = distanceFromCam / 1000;
+            if (parentLine.enabled)
+            {
+                parentLine.startWidth = parentLine.endWidth = (lw * orbitLineWidth);
+                parentLine.alignment = LineAlignment.View;
+            }
         }
     }
     public LineRenderer GetOrbitLineRenderer()
@@ -77,7 +80,7 @@ public class SatelliteBillboard : MonoBehaviour
         while (true)
         {
             transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
-            yield return distanceFromCam >= 500f? waitLong:waitShort;
+            yield return distanceFromCam >= 500f? waitLong:Time.deltaTime;
         }
     }
     private void UpdateNadirLine()
@@ -96,7 +99,7 @@ public class SatelliteBillboard : MonoBehaviour
 
         // Width scaling 
         float lw = distanceFromCam / 1000f;
-        nadirLine.startWidth = nadirLine.endWidth = lw * orbitLineWidth;
+        nadirLine.startWidth = nadirLine.endWidth = lw * (orbitLineWidth/2);
 
        //float length = Vector3.Distance(satPos, nadirPos);
 

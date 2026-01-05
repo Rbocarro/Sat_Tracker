@@ -45,7 +45,7 @@ public static class Utility
         return ConvertSphericalToUnityCoords(lat, lon, currentRadius);
     }
 
-    public static void GenerateOrbitPathAtTime(Satellite sat, DateTime time, float orbitDurationHours,int orbitResolution,float earthRadius,GameObject obj)
+    public static void GenerateOrbitLineRendererPathAtTime(Satellite sat, DateTime time, float orbitDurationHours,int orbitResolution,float earthRadius,GameObject obj)
     {
         double totalDurationMinutes = (orbitDurationHours * 60.0f) / sat.Tle.MeanMotionRevPerDay;// Calculate the orbital period in mins
         DateTime now = DateTime.UtcNow;
