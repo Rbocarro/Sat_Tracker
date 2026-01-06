@@ -24,11 +24,11 @@ public static class Utility
         for(int i = 0; i <= resolution; i++)
         {
             DateTime predictionTime=startTime.AddMinutes(i*timeStep);
-            points[i]=GetSatellitePosition(sat, predictionTime,earthRadiusUnity);
+            points[i]=GetSatelliteUnityPosition(sat, predictionTime,earthRadiusUnity);
         }
         return points;
     }
-    public static Vector3 GetSatellitePosition(Satellite sat, DateTime time,float earthRadUnity=100f)
+    public static Vector3 GetSatelliteUnityPosition(Satellite sat, DateTime time,float earthRadUnity=100f)
     {
         EciCoordinate eciPos = sat.Predict(time);
         GeodeticCoordinate geo = eciPos.ToGeodetic();
@@ -45,7 +45,7 @@ public static class Utility
         return ConvertSphericalToUnityCoords(lat, lon, currentRadius);
     }
 
-    public static void GenerateOrbitPathAtTime(Satellite sat, DateTime time, float orbitDurationHours,int orbitResolution,float earthRadius,GameObject obj)
+    public static void GenerateOrbitLineRendererPathAtTime(Satellite sat, DateTime time, float orbitDurationHours,int orbitResolution,float earthRadius,GameObject obj)
     {
         double totalDurationMinutes = (orbitDurationHours * 60.0f) / sat.Tle.MeanMotionRevPerDay;// Calculate the orbital period in mins
         DateTime now = DateTime.UtcNow;
@@ -53,21 +53,28 @@ public static class Utility
         LineRenderer lr = obj.AddComponent<LineRenderer>();
         lr.positionCount = orbitResolution + 1;
         lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.material.color = new Color(1, 1, 1, 0.45f);
         lr.useWorldSpace = true;
         lr.alignment = LineAlignment.View; // align view with camera
         lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         lr.enabled = false;
         lr.SetPositions(CalcualteOrbitVisualPoints(sat, now, orbitResolution, totalDurationMinutes, earthRadius));
     }
+    public static void SetupOrbitLineRenderer(GameObject obj)
+    {
+        LineRenderer lr = obj.AddComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.material.color = new Color(1, 1, 1, 0.45f);
+        lr.useWorldSpace = true;
+        lr.alignment = LineAlignment.View;
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.enabled = false;
+        lr.positionCount = 0; 
+    }
 
     public static Vector3 GetNadirPoint(Satellite sat, DateTime time,float rad)
     {
-        //var fah = sat.Predict(time);
-        //return new UnityEngine.Vector3((float)fah.Position.X,
-        //                               (float)fah.Position.Z,
-        //                                (float)fah.Position.Y).normalized*-rad;
         EciCoordinate eci = sat.Predict(time);
-
 
         GeodeticCoordinate geo = eci.ToGeodetic();
 
@@ -75,7 +82,20 @@ public static class Utility
         float lon = (float)geo.Longitude.Radians;
 
         return ConvertSphericalToUnityCoords(lat, lon, rad);
+    }
+    public static double GetAltitudeKm(Satellite sat, DateTime time)
+    {
+        EciCoordinate eci = sat.Predict(time);
+        GeodeticCoordinate geo = eci.ToGeodetic();
+        return geo.Altitude;
+    }
+    public static void GetLatLon(Satellite sat,DateTime time,out double latitudeDeg,out double longitudeDeg)
+    {
+        EciCoordinate eci = sat.Predict(time);
+        GeodeticCoordinate geo = eci.ToGeodetic();
 
+        latitudeDeg = geo.Latitude.Degrees;
+        longitudeDeg = geo.Longitude.Degrees;
     }
 }
 

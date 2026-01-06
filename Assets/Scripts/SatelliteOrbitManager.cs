@@ -107,7 +107,8 @@ public class SatelliteOrbitManager : MonoBehaviour
         GameObject orbitObj = new GameObject("Orbit_" + sat.Tle.Name);
         orbitObj.transform.SetParent(this.transform);
 
-        Utility.GenerateOrbitPathAtTime(sat, SimulationTime, orbitDurationHours, orbitResolution, earthRadius, orbitObj);
+        //Utility.GenerateOrbitLineRendererPathAtTime(sat, SimulationTime, orbitDurationHours, orbitResolution, earthRadius, orbitObj);
+        Utility.SetupOrbitLineRenderer(orbitObj);
 
         // Place satellite marker at current position
         GameObject marker = Instantiate(satellitePrefab, orbitObj.transform);
