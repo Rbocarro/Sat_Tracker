@@ -47,7 +47,6 @@ public class SatelliteBillboard : MonoBehaviour
     {
         // Make the plane parallel to the camera's forward vector
         transform.rotation = Quaternion.LookRotation(-mainCamTransform.forward, mainCamTransform.up);
-        //transform.Rotate(90, 0, 0);
 
         // Scaling logic
         distanceFromCam = Vector3.Distance(transform.position, mainCamTransform.position);

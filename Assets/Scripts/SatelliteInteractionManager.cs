@@ -38,7 +38,6 @@ public class SatelliteInteractionManager : MonoBehaviour
         mainCam = Camera.main;
         orbitManager = GetComponent<SatelliteOrbitManager>();
         SatHoverInfoPanelRectTransform =SatHoverInfoPanel.GetComponent<RectTransform>();
-        //timeScaleSlider.onValueChanged.AddListener((value) => {GetComponent<SatelliteOrbitManager>().timeMultiplier = value;});
         timeScaleSlider.minValue = 0f;
         timeScaleSlider.maxValue = 200f;
         timeScaleSlider.value = GetComponent<SatelliteOrbitManager>().timeMultiplier;
