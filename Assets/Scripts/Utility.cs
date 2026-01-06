@@ -60,6 +60,17 @@ public static class Utility
         lr.enabled = false;
         lr.SetPositions(CalcualteOrbitVisualPoints(sat, now, orbitResolution, totalDurationMinutes, earthRadius));
     }
+    public static void SetupOrbitLineRenderer(GameObject obj)
+    {
+        LineRenderer lr = obj.AddComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.material.color = new Color(1, 1, 1, 0.45f);
+        lr.useWorldSpace = true;
+        lr.alignment = LineAlignment.View;
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.enabled = false;
+        lr.positionCount = 0; 
+    }
 
     public static Vector3 GetNadirPoint(Satellite sat, DateTime time,float rad)
     {
