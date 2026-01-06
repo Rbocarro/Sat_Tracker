@@ -67,6 +67,7 @@ public class SatelliteInteractionManager : MonoBehaviour
         SatHoverInfoPanelRectTransform.anchoredPosition = anchoredPos;
         
         SatHoverInfoPanelText.text = $"{satelliteBillboard.sat.Name} <color=green>{satelliteBillboard.sat.Tle.NoradNumber}</color>";
+        SatHoverInfoPanelRectTransform.sizeDelta=SatHoverInfoPanelText.GetRenderedValues(false)+ new Vector2(4f,5f);
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -90,12 +91,16 @@ public class SatelliteInteractionManager : MonoBehaviour
             sb.Clear();
             sb.Append("<size=200%>").Append(selectedSatellite.Name).Append("</size>")
               .Append("\nNORAD ID: ").Append(selectedSatellite.Tle.NoradNumber)
-              .Append("\nInclination: ").Append(selectedSatellite.Tle.Inclination.Degrees.ToString("F2"))
-              .Append("\nBSTAR: ").Append(selectedSatellite.Tle.BStarDragTerm)
+              .Append("\nInt'l Code: ").Append(selectedSatellite.Tle.IntDesignator)
+              .Append("\nInclination: ").Append(selectedSatellite.Tle.Inclination.Degrees.ToString("F2")).Append("°")
+              .Append("\nBSTAR Drag: ").Append(selectedSatellite.Tle.BStarDragTerm)
               .Append("\nEccentricity: ").Append(selectedSatellite.Tle.Eccentricity.ToString("F4"))
-              .Append("\nArg Perigee: ").Append(selectedSatellite.Tle.ArgumentPerigee.Degrees.ToString("F2"))
-              .Append("\nRAAN: ").Append(selectedSatellite.Tle.RightAscendingNode.Degrees.ToString("F2"))
-              .Append("\nEpoch: ").Append(selectedSatellite.Tle.Epoch); // Stop here
+              .Append("\nArg Perigee: ").Append(selectedSatellite.Orbit.Perigee.ToString("F2")).Append("km")
+              .Append("\nApogee: ").Append(selectedSatellite.Orbit.Apogee.ToString("F2")).Append("km")
+              .Append("\nPeriod: ").Append(selectedSatellite.Orbit.Period.ToString("F2")).Append("m")
+              .Append("\nSemi Major Axis: ").Append(selectedSatellite.Orbit.SemiMajorAxis.ToString("F2")).Append("km")
+              .Append("\nRAAN: ").Append(selectedSatellite.Tle.RightAscendingNode.Degrees.ToString("F2")).Append("°")
+              .Append("\nEpoch: ").Append(selectedSatellite.Tle.Epoch);
             cacheSatStats = sb.ToString();
 
         }
