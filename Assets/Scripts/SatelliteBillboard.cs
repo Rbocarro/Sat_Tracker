@@ -83,7 +83,7 @@ public class SatelliteBillboard : MonoBehaviour
         {
             transform.position = Utility.GetSatelliteUnityPosition(sat, SatelliteOrbitManager.SimulationTime, 100);
             UpdateNadirLine();
-            yield return distanceFromCam >= 500f? waitLong:Time.deltaTime;
+            yield return distanceFromCam >= 1000f? waitLong:Time.deltaTime;
         }
     }
     private void UpdateNadirLine()
