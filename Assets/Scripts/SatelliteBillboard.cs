@@ -26,7 +26,6 @@ public class SatelliteBillboard : MonoBehaviour
         StartCoroutine(UpdateSatellitePosition());
         maincCamLastPosition = mainCamTransform.position;
         UpdateSatBillboardVisual();
-
         nadirpoint = new GameObject();
         nadirpoint.transform.SetParent(this.transform);
         SetupNadirLineRenderer();
@@ -41,14 +40,13 @@ public class SatelliteBillboard : MonoBehaviour
            UpdateSatBillboardVisual();
            maincCamLastPosition = mainCamTransform.position;
            nadirpoint.transform.position = Utility.GetNadirPoint(sat, SatelliteOrbitManager.SimulationTime,100);
-           UpdateNadirLine(); 
+           
         }
     }
     private void UpdateSatBillboardVisual()
     {
         // Make the plane parallel to the camera's forward vector
         transform.rotation = Quaternion.LookRotation(-mainCamTransform.forward, mainCamTransform.up);
-        //transform.Rotate(90, 0, 0);
 
         // Scaling logic
         distanceFromCam = Vector3.Distance(transform.position, mainCamTransform.position);
@@ -73,13 +71,18 @@ public class SatelliteBillboard : MonoBehaviour
     {
         return nadirLine;
     }
+    public Material GetMaterial()
+    {
+        return GetComponent<MeshRenderer>().material;
+    }
     IEnumerator UpdateSatellitePosition()
     {
         WaitForSeconds waitShort = new WaitForSeconds(0.2f);
         WaitForSeconds waitLong = new WaitForSeconds(5.0f);
         while (true)
         {
-            transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
+            transform.position = Utility.GetSatelliteUnityPosition(sat, SatelliteOrbitManager.SimulationTime, 100);
+            UpdateNadirLine();
             yield return distanceFromCam >= 500f? waitLong:Time.deltaTime;
         }
     }
