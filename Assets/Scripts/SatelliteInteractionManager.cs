@@ -11,6 +11,7 @@ public class SatelliteInteractionManager : MonoBehaviour
     Camera mainCam;
     LineRenderer currentActiveOrbitLine;
     LineRenderer currentActiveNadirLine;
+    Material currentActiveSatVisualMaterial;
 
     public RectTransform canvasRecTransform;
     RectTransform SatHoverInfoPanelRectTransform;
@@ -72,35 +73,45 @@ public class SatelliteInteractionManager : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             selectedSatellite = satelliteBillboard.sat;
+            //satelliteBillboard.GetComponent<MeshRenderer>().material.color = Color.red;
             GenerateAltitudeGraph(selectedSatellite);
             LineRenderer newOrbitLine = satelliteBillboard.GetOrbitLineRenderer();
             LineRenderer newNadirLine = satelliteBillboard.GetNadirLineRenderer();
+            Material newMat=satelliteBillboard.GetMaterial();
             if (newOrbitLine == null || newNadirLine == null) return;
             // Disable previous selection
             if (currentActiveOrbitLine != null && currentActiveOrbitLine != newOrbitLine)
                 currentActiveOrbitLine.enabled = false;
             if (currentActiveNadirLine != null && currentActiveNadirLine != newNadirLine)
                 currentActiveNadirLine.enabled = false;
+           if(currentActiveSatVisualMaterial!=null && currentActiveSatVisualMaterial != newMat)
+                currentActiveSatVisualMaterial.color= Color.white;
 
             // Enable new selection
-            newOrbitLine.enabled = true;
+            
             currentActiveOrbitLine = newOrbitLine;
-            newNadirLine.enabled = true;
             currentActiveNadirLine = newNadirLine;
+            currentActiveSatVisualMaterial = newMat;
+            newOrbitLine.enabled = true;
+            newNadirLine.enabled = true;
+            currentActiveSatVisualMaterial.color = Color.forestGreen;
+            
 
             sb.Clear();
             sb.Append("<size=200%>").Append(selectedSatellite.Name).Append("</size>")
               .Append("\nNORAD ID: ").Append(selectedSatellite.Tle.NoradNumber)
               .Append("\nInt'l Code: ").Append(selectedSatellite.Tle.IntDesignator)
+              .Append("\nEpoch: ").Append(selectedSatellite.Tle.Epoch)
               .Append("\nInclination: ").Append(selectedSatellite.Tle.Inclination.Degrees.ToString("F2")).Append("°")
-              .Append("\nBSTAR Drag: ").Append(selectedSatellite.Tle.BStarDragTerm)
+              
               .Append("\nEccentricity: ").Append(selectedSatellite.Tle.Eccentricity.ToString("F4"))
-              .Append("\nArg Perigee: ").Append(selectedSatellite.Orbit.Perigee.ToString("F2")).Append("km")
+              .Append("\nPerigee: ").Append(selectedSatellite.Orbit.Perigee.ToString("F2")).Append("km")
               .Append("\nApogee: ").Append(selectedSatellite.Orbit.Apogee.ToString("F2")).Append("km")
               .Append("\nPeriod: ").Append(selectedSatellite.Orbit.Period.ToString("F2")).Append("m")
               .Append("\nSemi Major Axis: ").Append(selectedSatellite.Orbit.SemiMajorAxis.ToString("F2")).Append("km")
-              .Append("\nRAAN: ").Append(selectedSatellite.Tle.RightAscendingNode.Degrees.ToString("F2")).Append("°")
-              .Append("\nEpoch: ").Append(selectedSatellite.Tle.Epoch);
+              .Append("\nBSTAR Drag: ").Append(selectedSatellite.Tle.BStarDragTerm)
+              .Append("\nRAAN: ").Append(selectedSatellite.Tle.RightAscendingNode.Degrees.ToString("F2")).Append("°");
+              
             cacheSatStats = sb.ToString();
 
         }

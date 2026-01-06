@@ -24,11 +24,11 @@ public static class Utility
         for(int i = 0; i <= resolution; i++)
         {
             DateTime predictionTime=startTime.AddMinutes(i*timeStep);
-            points[i]=GetSatellitePosition(sat, predictionTime,earthRadiusUnity);
+            points[i]=GetSatelliteUnityPosition(sat, predictionTime,earthRadiusUnity);
         }
         return points;
     }
-    public static Vector3 GetSatellitePosition(Satellite sat, DateTime time,float earthRadUnity=100f)
+    public static Vector3 GetSatelliteUnityPosition(Satellite sat, DateTime time,float earthRadUnity=100f)
     {
         EciCoordinate eciPos = sat.Predict(time);
         GeodeticCoordinate geo = eciPos.ToGeodetic();
@@ -63,12 +63,7 @@ public static class Utility
 
     public static Vector3 GetNadirPoint(Satellite sat, DateTime time,float rad)
     {
-        //var fah = sat.Predict(time);
-        //return new UnityEngine.Vector3((float)fah.Position.X,
-        //                               (float)fah.Position.Z,
-        //                                (float)fah.Position.Y).normalized*-rad;
         EciCoordinate eci = sat.Predict(time);
-
 
         GeodeticCoordinate geo = eci.ToGeodetic();
 
@@ -76,7 +71,6 @@ public static class Utility
         float lon = (float)geo.Longitude.Radians;
 
         return ConvertSphericalToUnityCoords(lat, lon, rad);
-
     }
     public static double GetAltitudeKm(Satellite sat, DateTime time)
     {

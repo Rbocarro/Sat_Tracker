@@ -72,13 +72,17 @@ public class SatelliteBillboard : MonoBehaviour
     {
         return nadirLine;
     }
+    public Material GetMaterial()
+    {
+        return GetComponent<MeshRenderer>().material;
+    }
     IEnumerator UpdateSatellitePosition()
     {
         WaitForSeconds waitShort = new WaitForSeconds(0.2f);
         WaitForSeconds waitLong = new WaitForSeconds(5.0f);
         while (true)
         {
-            transform.position = Utility.GetSatellitePosition(sat, SatelliteOrbitManager.SimulationTime, 100);
+            transform.position = Utility.GetSatelliteUnityPosition(sat, SatelliteOrbitManager.SimulationTime, 100);
             UpdateNadirLine();
             yield return distanceFromCam >= 500f? waitLong:Time.deltaTime;
         }
