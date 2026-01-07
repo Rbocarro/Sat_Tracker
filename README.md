@@ -15,7 +15,14 @@ SGP(Simplified General Pertuberation) Models are mathamatical models that are us
 ![](./ReadmeAssets/Nadir.svg)<br/>
 the Utility class is a wrapper for the SGP.NET  library for Unity that allowd me to make some easliy reuseable functions that help convert stuff like geodesic cooridinates into Unity Vector3 Postions. I also added additional methods such as the abilty to caluclate the Nadir point of a satellite on the surface of the earth.
 
+## Earth Model
+![](./ReadmeAssets/Nadir.png)<br/>
+the Earth Model was obtained from the Unity Asset Store I had to modify some of the mouse interaction features to work with Unity's new Input System and to make sure the rotation dragging didnt interfere with the UI interaction.
 
+
+## Satellite GameObjects
+![](./ReadmeAssets/sat_billboard.gif)<br/>
+the Satellite gameobejects are quad billboard meshes that rotate to face the camera every few frames
 
 ## Improvements
 + The main performance hurdle is the calculation and rendering of several satellites. Since each satellite has its own update loop which calculates its respective position, rotation and scale with respect to the camera and is all done on the main CPU thread. The code could be modified to use Unity's ECS and GPU instancing to help parallise some of the computation on either the GPU or CPU threads
